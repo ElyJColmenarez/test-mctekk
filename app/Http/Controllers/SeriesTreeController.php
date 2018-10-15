@@ -14,7 +14,9 @@ class SeriesTreeController extends Controller
      */
     public function index()
     {
-        //
+        $series =SeriesTree::all();
+
+        dd($series->groupBy('parent_id'));
     }
 
     /**
