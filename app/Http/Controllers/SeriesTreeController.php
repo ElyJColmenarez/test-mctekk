@@ -14,9 +14,42 @@ class SeriesTreeController extends Controller
      */
     public function index()
     {
-        $series =SeriesTree::all();
+        $series = SeriesTree::all();
+        $this->Menu($series);
+        return view('seriestree.index')->with(['series'=> $series]);
+    }
 
-        dd($series->groupBy('parent_id'));
+    public function Menu($series, $id=0, $name =null, $seriesArray = null)
+    {
+        if ($seriesArray === null)
+            $seriesArray = array();
+
+        foreach ($series as $key => $serie)
+        {
+            if (!$serie->parent_id)
+            {
+                $seriesArray[$serie->series_name] = null;
+                $id = $serie->id;
+                $name = $serie->series_name;
+                unset($series[$key]);
+            }
+            elseif($serie->parent_id && $serie->parent_id === $id)
+            {
+                $seriesArray[$name][] = array('id' => $serie->id, 'name'=>$serie->series_name);
+                unset($series[$key]);
+            }
+//            elseif($serie->parent_id && $serie->parent_id !== $id)
+//            {
+//                $this->Menu($series,$id,$serie->series_name,$seriesArray);
+//            }
+
+
+
+        }
+        //dd($series);
+        dd($seriesArray);
+
+
     }
 
     /**
