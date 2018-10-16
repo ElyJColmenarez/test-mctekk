@@ -19,15 +19,28 @@ class SeriesTreeController extends Controller
         return view('seriestree.index')->with(['series'=> $series]);
     }
 
-    public function Menu($series)
+    public function menu($series,$id = 0,$name = '')
     {
 
                 if ($series->count() > 0)
                 {
                     $serie = $series->shift();
-//                dd($serie->series_name);
-                    echo    "<li>".$serie['series_name']."</li>";
-                    $this->Menu($series);
+
+                    if($serie['parent_id'] === null)
+                    {
+                        echo    "<li>".$serie['series_name']."</li>";
+                        $id = $serie['id'];
+                        $name = $serie['series_name'];
+                    }
+                    elseif ($serie['parent_id'] === $id)
+                    {
+                        echo    "<ul>
+                                    <li>".$serie['series_name']."</li>
+                                </ul>";
+                    }
+
+
+                    $this->menu($series,$id,$name);
                 }
 
 
