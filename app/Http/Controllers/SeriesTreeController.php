@@ -19,37 +19,34 @@ class SeriesTreeController extends Controller
         return view('seriestree.index')->with(['series'=> $series]);
     }
 
-    public function Menu($series, $id=0, $name =null, $seriesArray = null)
+    public function Menu($series)
     {
-        if ($seriesArray === null)
-            $seriesArray = array();
 
-        foreach ($series as $key => $serie)
-        {
-            if (!$serie->parent_id)
-            {
-                $seriesArray[$serie->series_name] = null;
-                $id = $serie->id;
-                $name = $serie->series_name;
-                unset($series[$key]);
-            }
-            elseif($serie->parent_id && $serie->parent_id === $id)
-            {
-                $seriesArray[$name][] = array('id' => $serie->id, 'name'=>$serie->series_name);
-                unset($series[$key]);
-            }
+                if ($series->count() > 0)
+                {
+                    $serie = $series->shift();
+//                dd($serie->series_name);
+                    echo    "<li>".$serie['series_name']."</li>";
+                    $this->Menu($series);
+                }
+
+
+//            if (!$serie->parent_id)
+//            {
+//                $seriesArray[$serie->series_name] = null;
+//                $id = $serie->id;
+//                $name = $serie->series_name;
+//                unset($series[$key]);
+//            }
+//            elseif($serie->parent_id && $serie->parent_id === $id)
+//            {
+//                $seriesArray[$name][] = array('id' => $serie->id, 'name'=>$serie->series_name);
+//                unset($series[$key]);
+//            }
 //            elseif($serie->parent_id && $serie->parent_id !== $id)
 //            {
 //                $this->Menu($series,$id,$serie->series_name,$seriesArray);
 //            }
-
-
-
-        }
-        //dd($series);
-        dd($seriesArray);
-
-
     }
 
     /**
