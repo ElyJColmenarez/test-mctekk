@@ -15,51 +15,24 @@ class SeriesTreeController extends Controller
     public function index()
     {
         $series = SeriesTree::all();
-        $this->Menu($series);
-        return view('seriestree.index')->with(['series'=> $series]);
+        $this->menu($series);
+        return view('seriestree.index')->with(['series'=> $this->menu($series)]);
     }
 
-    public function menu($series,$id = 0,$name = '')
+    public function menu($series,$id = null)
     {
+        $string = "<ul>";
+        foreach ($series as $serie)
+        {
+            if($serie->parent_id === $id)
+            {
+                $string .= "<li>".$serie->series_name."</li>";
+                $string .= $this->menu($series,$serie->id,$string);
+            }
+        }
+        $string .="</ul>";
 
-                if ($series->count() > 0)
-                {
-                    $serie = $series->shift();
-
-                    if($serie['parent_id'] === null)
-                    {
-                        echo    "<li>".$serie['series_name']."</li>";
-                        $id = $serie['id'];
-                        $name = $serie['series_name'];
-                    }
-                    elseif ($serie['parent_id'] === $id)
-                    {
-                        echo    "<ul>
-                                    <li>".$serie['series_name']."</li>
-                                </ul>";
-                    }
-
-
-                    $this->menu($series,$id,$name);
-                }
-
-
-//            if (!$serie->parent_id)
-//            {
-//                $seriesArray[$serie->series_name] = null;
-//                $id = $serie->id;
-//                $name = $serie->series_name;
-//                unset($series[$key]);
-//            }
-//            elseif($serie->parent_id && $serie->parent_id === $id)
-//            {
-//                $seriesArray[$name][] = array('id' => $serie->id, 'name'=>$serie->series_name);
-//                unset($series[$key]);
-//            }
-//            elseif($serie->parent_id && $serie->parent_id !== $id)
-//            {
-//                $this->Menu($series,$id,$serie->series_name,$seriesArray);
-//            }
+        return $string;
     }
 
     /**
