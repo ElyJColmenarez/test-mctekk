@@ -15,11 +15,10 @@ class SeriesTreeController extends Controller
     public function index()
     {
         $series = SeriesTree::all();
-        $this->menu($series);
-        return view('seriestree.index')->with(['series'=> $this->menu($series)]);
+        return view('seriestree.index')->with(['series'=> $this->seriesTree($series)]);
     }
 
-    public function menu($series,$id = null)
+    public function seriesTree($series,$id = null)
     {
         $string = "<ul>";
         foreach ($series as $serie)
@@ -27,7 +26,7 @@ class SeriesTreeController extends Controller
             if($serie->parent_id === $id)
             {
                 $string .= "<li>".$serie->series_name."</li>";
-                $string .= $this->menu($series,$serie->id,$string);
+                $string .= $this->seriesTree($series,$serie->id,$string);
             }
         }
         $string .="</ul>";
