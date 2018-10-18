@@ -21,7 +21,7 @@ INSERT INTO series_trees (series_name, parent_id, created_at, updated_at) VALUES
   ('Naruto: Shippuuden - Konoha Gakuen Special (anime) (parody)', 8, null, null),
   ('Boruto: Naruto Next Generations (anime) (sequel)', 8, null, null),
   ('Rock Lee no Seishun Full-Power Ninden (anime) (spinoff)', null, null, null),
-  ('Rock Lee no Seishun Full-Power Ninden Mou Iccho (anime) (sequel)', 21, null, null);
+  ('Rock Lee no Seishun Full-Power Ninden Mou Iccho (anime) (sequel)', 22, null, null);
 
 
 
